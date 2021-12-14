@@ -12,6 +12,5 @@ export async function updateProduct(id, obj) {
   }).then((response) => response.json())
     .then((json) => {
         console.log(json)
-        // productState.set(productState.get().map(it => it.id === id ? json : it))
     });
 }

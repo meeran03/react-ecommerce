@@ -31,7 +31,7 @@
       "name": "Trådfria Lampor",
       "brand": "IKEA",
       "price": "300",
-      "available": true,
+      "available": false,
       "weight": 0.2,
       "options": [
         {
@@ -40,7 +40,7 @@
             6.5,
             9.5
           ],
-          "quantity": 3
+          "quantity": 0
         },
         {
           "color": "red",
@@ -76,7 +76,7 @@
             "500",
             "1000"
           ],
-          "quantity": 10
+          "quantity": 3
         },
         {
           "color": [

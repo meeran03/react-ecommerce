@@ -11,7 +11,6 @@ export default function HomePage(props) {
 
   React.useEffect(() => {
     getProducts().then((res) => {
-      console.log(res)
       setData(res);
     });
   }, []);

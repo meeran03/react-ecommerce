@@ -11,10 +11,22 @@ function CartItem({ cart, setCart, ...props }) {
         let opt = pItem.options.find((it) => it.color === newItem.color);
         if (newItem.quantity < opt.quantity)
           newItem.quantity = parseInt(newItem.quantity) + 1;
+        else {
+          props.setNotification({open : true, message: "Does Not Have Enough Available Stock", title : "Error",type: "danger"})
+          setTimeout(() => {
+            props.setNotification({...props.notification, open : false});
+          },1500)
+        }
       } else if (newItem.type === 2) {
         let opt = pItem.options.find((clr) => clr.color[0] === newItem.color);
         if (newItem.quantity < opt.quantity)
           newItem.quantity = parseInt(newItem.quantity) + 1;
+        else {
+          props.setNotification({open : true, message: "Does Not Have Enough Available Stock", title : "Error",type: "danger"})
+          setTimeout(() => {
+            props.setNotification({...props.notification, open : false});
+          },1500)
+        }
       }
     } else {
       if (newItem.quantity > 1)
@@ -48,6 +60,9 @@ function CartItem({ cart, setCart, ...props }) {
           class=" h-6 w-6 text-gray-400 text-sm border-2 border-black inline-block mt-2"
           style={{ backgroundColor: item.color }}
         ></span>
+        <span
+          class="  text-gray-400 text-sm mt-2"
+        >{item.type === 1 ? "Power" : "Storage(GBs)"} : {item.power}</span>
       </div>
       <div class="col-span-2 ">
         <div class="flex items-center space-x-2 text-sm justify-between">
@@ -58,6 +73,7 @@ function CartItem({ cart, setCart, ...props }) {
             ${item.quantity * pItem.price}
           </span>
         </div>
+  
         <div className=" ">
           <div className="flex flex-row items-center justify-between mt-4">
             <button

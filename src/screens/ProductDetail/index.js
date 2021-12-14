@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import { productState } from "../../contexts/productState";
 import { cartState } from "../../contexts/cartState";
+import Notification from "../../components/Notification";
 
 function ProductDetail() {
   let { id } = useParams();
@@ -13,7 +14,8 @@ function ProductDetail() {
   const [option, setOption] = React.useState(null);
   const [quantity, setQuantity] = React.useState(0);
   const [power, setPower] = React.useState(null);
-  const [render, setRender] = React.useState(false);
+  const [notification, setNotification] = React.useState({ open: false });
+  const [disabled, setDisabled] = React.useState(false);
 
   let [cart, setCart] = cartState.use();
 
@@ -24,6 +26,7 @@ function ProductDetail() {
     // here we check if the item with such configurations already exists in the cart
     let clr =
       option.color.constructor === Array ? option.color[0] : option.color;
+    // we are only checking for an item with same color power and id
     let prevItem = arr.find((t) => {
       if (t.id === id && t.color === clr) {
         if (t.power === power) {
@@ -45,12 +48,19 @@ function ProductDetail() {
 
       arr.push(obj);
       setCart(cart);
-      setRender(!render);
+      setNotification({
+        open: true,
+        title: "Success",
+        message: "Your Product Was succesfully Added To The Cart",
+        type: "info",
+      });
+      setTimeout(() => {
+        setNotification({ ...notification, open: false });
+      }, 1500);
     } else {
       if (prevItem.quantity + quantity <= option.quantity) {
         prevItem.quantity = prevItem.quantity + quantity;
       } else {
-        console.log(prevItem);
         alert("Not Enough Items Available");
       }
     }
@@ -86,8 +96,6 @@ function ProductDetail() {
                     <button
                       onClick={() => {
                         setOption(item);
-                        //   setPower(null)
-                        //   setQuantity(0)
                       }}
                       disabled={item.quantity === 0}
                       class={`border-2 border-grey-300 rounded-full w-6 h-6 `}
@@ -116,14 +124,28 @@ function ProductDetail() {
                                 ? option.color[0]
                                 : option.color)
                           ) {
-                            if (t.power === e.target.value) {
-                              return t;
-                            }
+                            // if (t.power === e.target.value) {
+                            return t;
+                            // }
                           }
                         });
                         if (prevItem) setQuantity(prevItem.quantity);
+                        if (prevItem && prevItem.quantity === option.quantity) {
+                          setNotification({
+                            open: true,
+                            title: "Error",
+                            message: "Not Enough Stock Available",
+                            type: "danger",
+                          });
+                          setTimeout(() => {
+                            setNotification({ ...notification, open: false });
+                          }, 1500);
+                          setDisabled(true);
+                        }
+                        else {
+                          setDisabled(false)
+                        }
                       }}
-                      // disabled="disabled"
                     >
                       <option disabled="disabled" selected="selected">
                         Choose Size
@@ -154,18 +176,34 @@ function ProductDetail() {
                     onChange={(e) => {
                       if (e.target.value <= option.quantity)
                         setQuantity(parseInt(e.target.value));
+                      else {
+                        setNotification({
+                          open: true,
+                          title: "Error",
+                          message: "Does Not Have Enough Available Stock",
+                          type: "danger",
+                        });
+                        setTimeout(() => {
+                          setNotification({ ...notification, open: false });
+                        }, 1500);
+                      }
                     }}
                   />
                 </div>
+
               </div>
-              <div class="flex">
+              <div class="flex flex-col">
                 <span class="title-font font-medium text-2xl text-gray-900">
                   ${item.price}
+                </span>
+
+                <span class="title-font font-medium text-xl text-gray-300">
+                  Weight: {item.weight}KG
                 </span>
               </div>
               <button
                 onClick={cartAdd}
-                disabled={quantity === 0}
+                disabled={quantity === 0 || disabled}
                 class=" mt-4 btn btn-sm btn-primary rounded"
               >
                 Add To Cart
@@ -174,6 +212,12 @@ function ProductDetail() {
           </div>
         </div>
       </section>
+      <Notification
+        open={notification.open}
+        title={notification.title}
+        message={notification.message}
+        type={notification.type}
+      />
     </div>
   );
 }
