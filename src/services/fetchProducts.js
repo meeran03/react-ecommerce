@@ -1,4 +1,3 @@
-import {productState} from '../contexts/productState'
 
 
 const URL = 'http://localhost:3001'
@@ -6,7 +5,6 @@ const URL = 'http://localhost:3001'
 export async function getProducts() {
     return await fetch(URL + '/items' ).then(async res => {
         let items = await res.json()
-        productState.set(items);
         return items
     })
 }

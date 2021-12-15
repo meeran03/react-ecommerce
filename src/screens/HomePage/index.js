@@ -5,12 +5,14 @@ import SearchBar from "../../components/SearchBar";
 import { getProducts } from "../../services/fetchProducts";
 import { useHistory } from "react-router-dom";
 import ProductLoader from "../../components/ProductLoader";
+import { productState } from "../../contexts/productState";
 
 export default function HomePage(props) {
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
     getProducts().then((res) => {
+      productState.set(res);
       setData(res);
     });
   }, []);

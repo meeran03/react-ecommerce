@@ -1,4 +1,3 @@
-import { productState } from "../contexts/productState";
 
 const URL = "http://localhost:3001";
 
