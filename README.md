@@ -6,6 +6,11 @@ This app uses follows complete flow of building an ecommerce application with va
 with a variety of options.
 </p>
 
+## Tech Stack Used
+
+![React](https://img.shields.io/badge/-React-%23282C34?style=flat-square&logo=react)
+![JSON](https://img.shields.io/badge/JSON-black?style=for-the-badge&logo=JSON%20web%20tokens)
+
 ## Run Locally
 
 Install dependencies
@@ -20,11 +25,6 @@ Start the server
     npx json-server --watch src/utils/data.json --port 3001
     yarn start
 ```
-
-## Tech Stack Used
-
-![React](https://img.shields.io/badge/-React-%23282C34?style=flat-square&logo=react)
-![JSON](https://img.shields.io/badge/JSON-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
 ## Running Tests
 
