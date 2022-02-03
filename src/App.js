@@ -4,6 +4,7 @@ import Checkout from './screens/Checkout';
 import HomePage from './screens/HomePage';
 import ProductDetail from './screens/ProductDetail';
 
+// root
 
 function App() {
   return (
